@@ -67,6 +67,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
     "@types/editorjs__header": "^2.6.0",
     "@types/lodash.debounce": "^4.0.7"
   }
