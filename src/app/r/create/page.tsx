@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
 import { CreateSubredditPayload } from '@/lib/validators/subreddit'
-import axios, { AxiosError } from 'axios'
 import { toast } from '@/hooks/use-toast'
 import { useCustomToast } from '@/hooks/use-custom-toast'
+import axios, { AxiosError } from 'axios'
 
 const Page: FC = () => {
   const [input, setInput] = useState<string>('')
