@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     })
 
     if (subreddit) {
-      return new Response("You cant' unsubsribe from your own subreddit.", {
+      return new Response("You can't unsubsribe from your own subreddit.", {
         status: 400,
       })
     }

@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { FC, ReactNode } from 'react'
 import { format } from 'date-fns'
 import SubscribeLeaveToggle from '@/components/SubscribeLeaveToggle'
+import { buttonVariants } from '@/components/ui/Button'
+import Link from 'next/link'
 
 interface LayoutProps {
   children: ReactNode
@@ -87,13 +89,23 @@ const Layout: FC<LayoutProps> = async ({ children, params: { slug } }) => {
                 </div>
               )}
 
-              {subreddit.creatorId !== session?.user.id && (
+              {subreddit.creatorId !== session?.user.id ? (
                 <SubscribeLeaveToggle
                   subredditId={subreddit.id}
                   subredditName={subreddit.name}
                   isSubscribed={isSubcribed}
                 />
-              )}
+              ) : null}
+
+              <Link
+                href={`r/${slug}/submit`}
+                className={buttonVariants({
+                  variant: 'outline',
+                  className: 'w-full mb-6',
+                })}
+              >
+                Create post
+              </Link>
             </dl>
           </div>
         </div>
