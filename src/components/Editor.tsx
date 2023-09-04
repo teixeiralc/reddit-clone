@@ -1,16 +1,16 @@
 'use client'
 
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
 import { useForm } from 'react-hook-form'
 import { PostCreationRequest, PostValidator } from '@/lib/validators/post'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type EditorJS from '@editorjs/editorjs'
 import { uploadFiles } from '@/lib/uploadthing'
 import { toast } from '@/hooks/use-toast'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
+import TextareaAutosize from 'react-textarea-autosize'
+import axios from 'axios'
+import type EditorJS from '@editorjs/editorjs'
 
 interface EditorProps {
   subredditId: string
@@ -171,7 +171,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     createPost(payload)
   }
 
-  const { ref: titleRef } = register('title')
+  const { ref: titleRef, ...rest } = register('title')
 
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
@@ -186,8 +186,9 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
               titleRef(e)
               _titleRef.current = e
             }}
+            {...rest}
             placeholder="Title"
-            className="w-full resize-none appearance-none bg-transparent text-4xl font-bold focus:outline-none"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-4xl font-bold focus:outline-none"
           />
           <div id="editor" className="min-h-[500px]" />
         </div>

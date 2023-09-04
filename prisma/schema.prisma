@@ -11,6 +11,11 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum VoteType {
+  UP
+  DOWN
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -43,9 +48,9 @@ model User {
   name              String?
   email             String?        @unique
   emailVerified     DateTime?
-  createdSubredddit Subreddit[]    @relation("CreatedBy")
-  votes             Vote[]
+  createdSubreddits Subreddit[]    @relation("CreatedBy")
   subscriptions     Subscription[]
+  votes             Vote[]
 
   username String? @unique
 
@@ -86,14 +91,12 @@ model Post {
   content     Json?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  comments Comment[]
-  votes    Vote[]
+  comments    Comment[]
+  votes       Vote[]
 }
 
 model Comment {
@@ -102,7 +105,7 @@ model Comment {
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
 
   replyToId String?
@@ -113,15 +116,10 @@ model Comment {
   commentId String?
 }
 
-enum VoteType {
-  UP
-  DOWN
-}
-
 model Vote {
   user   User     @relation(fields: [userId], references: [id])
   userId String
-  post   Post     @relation(fields: [postId], references: [id])
+  post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
   type   VoteType
 
@@ -131,7 +129,7 @@ model Vote {
 model CommentVote {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  comment   Comment  @relation(fields: [commentId], references: [id])
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId String
   type      VoteType
 
